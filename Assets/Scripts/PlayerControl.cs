@@ -11,13 +11,14 @@ public class PlayerControl : MonoBehaviour
 
     public GroundCollision groundCollider;
 
+    public bool isStopped;
     public float speed;
     public float maxSpeed;
 
     public Vector3 accelerationDirection;
     public float accelerationMagnitude;
-
     public float jumpAcceleration;
+
 
     // Use this for initialization
     void Start()
@@ -25,14 +26,16 @@ public class PlayerControl : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         accelerationDirection = Vector3.forward;
     }
+    
     private void Update()
     {
         speed = rb.velocity.magnitude;
     }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (groundCollider.grounded)
+        if (groundCollider.grounded && !isStopped)
         {
             rb.AddForce(accelerationDirection * accelerationMagnitude);
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
@@ -46,5 +49,12 @@ public class PlayerControl : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpAcceleration);
         }
+    }
+
+    public void Stop()
+    {
+        isStopped = true;
+        float velocityY = rb.velocity.y;
+        rb.velocity = Vector3.zero + Vector3.up*velocityY;
     }
 }
