@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActFlag : MonoBehaviour {
+public class ActFlag : Flag {
 
 	// Use this for initialization
 	void Start () {
@@ -13,4 +13,15 @@ public class ActFlag : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	void Act(){
+		//TODO
+	}
+
+	public override void OnTriggerEnter (Collider other)
+	{
+		base.OnTriggerEnter (other);
+		Act ();
+	}
+
 }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpFlag : MonoBehaviour {
+public class JumpFlag : Flag {
+
 
 	// Use this for initialization
 	void Start () {
@@ -12,5 +13,18 @@ public class JumpFlag : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+		
+
+	public override void OnTriggerEnter (Collider other)
+	{
+		base.OnTriggerEnter (other);
+		if (other.tag == "Player") {
+			PlayerControl playerControl = other.GetComponent<PlayerControl> ();
+			if (playerControl.grounded) {
+				playerControl.Jump ();
+			}
+
+		}
 	}
 }

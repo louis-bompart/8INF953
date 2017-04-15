@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class DirectionFlag : Flag {
 
+	public enum dir{
+		
+	}
+
+
+
 	// Use this for initialization
 	void Start () {
 		

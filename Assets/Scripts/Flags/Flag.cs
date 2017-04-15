@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flag : MonoBehaviour {
+public abstract class Flag : MonoBehaviour {
 
 
 	// Use this for initialization
@@ -13,6 +13,9 @@ public class Flag : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public virtual void OnTriggerEnter(Collider other) {
 	}
 
     public override bool Equals(object obj)
