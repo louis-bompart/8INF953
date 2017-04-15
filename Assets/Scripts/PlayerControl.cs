@@ -17,6 +17,7 @@ public class PlayerControl : MonoBehaviour
 
     public Vector3 accelerationDirection;
     public float accelerationMagnitude;
+
     public float jumpAcceleration;
 
 
@@ -42,13 +43,15 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    public void Jump()
+    public bool Jump()
     {
         //Add an instant force of X
         if (groundCollider.grounded)
         {
             rb.AddForce(Vector3.up * jumpAcceleration, ForceMode.Impulse);
+            return true;
         }
+        return false;
     }
 
     public void Stop()
@@ -56,5 +59,10 @@ public class PlayerControl : MonoBehaviour
         isStopped = true;
         float velocityY = rb.velocity.y;
         rb.velocity = Vector3.zero + Vector3.up*velocityY;
+    }
+
+    public void Reverse()
+    {
+        accelerationDirection *= -1;
     }
 }

@@ -21,7 +21,17 @@ public class JumpFlag : Flag
 
     public override void OnTriggerEnter(Collider other)
     {
-        base.OnTriggerEnter(other);
-        other.GetComponent<PlayerControl>().Jump();
+        Jump(other);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Jump(other);
+    }
+
+    private void Jump(Collider other)
+    {
+        if (!isUsed)
+            isUsed = other.GetComponent<PlayerControl>().Jump();
     }
 }
