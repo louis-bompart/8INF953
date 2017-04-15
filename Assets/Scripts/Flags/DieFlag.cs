@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DieFlag : Flag {
-
-	public GameObject corpse;
-
+    
 
 	// Use this for initialization
 	void Start () {
@@ -17,23 +15,15 @@ public class DieFlag : Flag {
 		
 	}
 
-	void Die() {
-		
-			Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
-		//TODO
-		// Actions on character and instructions for next round ?
-
-			//Instantiate a deadPlayer on the player coordinate
-			//Move player to its start wp and set speed and acceleration to 0
-	}
-
-	public override void OnTriggerEnter (Collider other)
-	{
-		base.OnTriggerEnter (other);
-		Die ();
 
 
-	}
+    public override void OnTriggerEnter(Collider other)
+    {
+        if (!isUsed)
+            other.GetComponent<PlayerControl>().Die();
+        base.OnTriggerEnter(other);
+    }
+
 
 	/*private void Suicide()
 	{

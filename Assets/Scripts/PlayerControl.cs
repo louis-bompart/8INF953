@@ -65,4 +65,12 @@ public class PlayerControl : MonoBehaviour
     {
         accelerationDirection *= -1;
     }
+
+    public void Die()
+    {
+        Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
+        //TODO
+        //Gerer la mort
+
+    }
 }
