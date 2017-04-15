@@ -47,7 +47,7 @@ public class PlayerControl : MonoBehaviour
         //Add an instant force of X
         if (groundCollider.grounded)
         {
-            rb.AddForce(Vector3.up * jumpAcceleration);
+            rb.AddForce(Vector3.up * jumpAcceleration, ForceMode.Impulse);
         }
     }
 
