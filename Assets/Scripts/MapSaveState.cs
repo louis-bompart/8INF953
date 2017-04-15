@@ -17,6 +17,10 @@ public class MapSaveState : MonoBehaviour
         toReturn = Instantiate(original).GetComponent<MapSaveState>();
         toReturn.xSize = serialized.xSize;
         toReturn.ySize = serialized.ySize;
+        for (int i = 0; i < serialized.tiles.Length; i++)
+        {
+            toReturn.tiles[i % toReturn.xSize, i / toReturn.xSize] = serialized.tiles[i];
+        }
         return toReturn;
     }
 
@@ -32,11 +36,10 @@ public class MapSaveStateSerializable
 {
     public int xSize;
     public int ySize;
+    public Tile[] tiles;
+
     [NonSerialized]
     public MapSaveState mapSaveState;
-    [NonSerialized]
-    public int size;
-    public Tile[] tiles;
 
     public MapSaveStateSerializable()
     {
@@ -47,7 +50,7 @@ public class MapSaveStateSerializable
         xSize = saveState.xSize;
         ySize = saveState.ySize;
 
-        size = saveState.xSize * saveState.ySize;
+        int size = saveState.xSize * saveState.ySize;
         tiles = new Tile[size];
         for (int i = 0; i < saveState.xSize; i++)
         {

@@ -15,36 +15,36 @@ public class SaveLoad : MonoBehaviour
 
     void Test()
     {
-        MyArrayObject mainObject = new MyArrayObject();
-        mainObject.xSize = 2;
-        mainObject.obj = new MyObject[2, 2];
-        mainObject.obj[0, 0] = new MyObject(0, "zero");
-        mainObject.obj[0, 1] = new MyObject(1, "one");
-        mainObject.obj[1, 0] = new MyObject(2, "two");
-        mainObject.obj[1, 1] = new MyObject(3, "three");
+        //MyArrayObject mainObject = new MyArrayObject();
+        //mainObject.xSize = 2;
+        //mainObject.obj = new MyObject[2, 2];
+        //mainObject.obj[0, 0] = new MyObject(0, "zero");
+        //mainObject.obj[0, 1] = new MyObject(1, "one");
+        //mainObject.obj[1, 0] = new MyObject(2, "two");
+        //mainObject.obj[1, 1] = new MyObject(3, "three");
 
-        MyArrayObjectSerializable seriaObject = mainObject.ToMyArrayObjectSerializable();
+        //MyArrayObjectSerializable seriaObject = mainObject.ToMyArrayObjectSerializable();
 
 
-        String generatedString = MapToJSON(seriaObject); // Save object to JSON string
+        //String generatedString = MapToJSON(seriaObject); // Save object to JSON string
 
-        String ressourcePath = Path.Combine(Application.dataPath, "Resources"); // Get Path to game resources folder
-        String filePath = Path.Combine("StreamingAssets", "Test.json"); // Get Path to file in resources folder
-        String realPath = Path.Combine(ressourcePath, filePath); // Get Real Path
+        //String ressourcePath = Path.Combine(Application.dataPath, "Resources"); // Get Path to game resources folder
+        //String filePath = Path.Combine("StreamingAssets", "Test.json"); // Get Path to file in resources folder
+        //String realPath = Path.Combine(ressourcePath, filePath); // Get Real Path
 
-        SaveJSONToFile(generatedString, realPath); // Write Json string to file
+        //SaveJSONToFile(generatedString, realPath); // Write Json string to file
 
-        String newPath = Path.Combine("StreamingAssets", "Test"); // Get Path to file in resources folder without .json !
-        String savedString = LoadJSONFromFile(newPath); // Load Json from file
+        //String newPath = Path.Combine("StreamingAssets", "Test"); // Get Path to file in resources folder without .json !
+        //String savedString = LoadJSONFromFile(newPath); // Load Json from file
 
-        MyArrayObjectSerializable secondSeriaObject = JSONToObject(savedString);  // Create Object from Json
+        //MyArrayObjectSerializable secondSeriaObject = JSONToObject(savedString);  // Create Object from Json
 
-        MyArrayObject secondObject = secondSeriaObject.ToMyArrayObject();
-        Debug.Log(secondObject.obj[0, 1].ToString());
+        //MyArrayObject secondObject = secondSeriaObject.ToMyArrayObject();
+        //Debug.Log(secondObject.obj[0, 1].ToString());
 
     }
 
-    string MapToJSON(MyArrayObjectSerializable obj)
+    string MapToJSON(MapSaveStateSerializable obj)
     { // Save object to JSON string
         return JsonUtility.ToJson(obj);
     }
@@ -64,9 +64,9 @@ public class SaveLoad : MonoBehaviour
         return asset.text;
     }
 
-    MyArrayObjectSerializable JSONToObject(string JSON)
+    MapSaveStateSerializable JSONToObject(string JSON)
     { // Create Object from Json
-        return JsonUtility.FromJson<MyArrayObjectSerializable>(JSON);
+        return JsonUtility.FromJson<MapSaveStateSerializable>(JSON);
     }
 
     [System.Serializable]
