@@ -1,20 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Tile
 {
-    [SerializeField]
     string tileName;
-    [SerializeField]
     string description;
-    [SerializeField]
     bool isWalkable;
-    [SerializeField]
     bool isDeadly;
-    [SerializeField]
     private FlagStack flagStack;
-    [SerializeField]
     private IDManager idManager;
     public IDManager idManagerPrefab;
 

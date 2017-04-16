@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Actionner : MonoBehaviour
+public abstract class Actionner : MonoBehaviour
 {
 
     //isActive correspond à l'activation ou non de l'actionneur
@@ -14,5 +14,10 @@ public class Actionner : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+    }
+
+    public virtual void Update()
+    {
+        //anim.SetBool("Activated", isActive);
     }
 }

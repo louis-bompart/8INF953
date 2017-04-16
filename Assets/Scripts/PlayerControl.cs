@@ -19,8 +19,8 @@ public class PlayerControl : MonoBehaviour
     public float accelerationMagnitude;
 
     public float jumpAcceleration;
-    public Actionner actionnerInRange;
-
+    public Lever leverInRange;
+    
 
     // Use this for initialization
     void Start()
@@ -75,5 +75,13 @@ public class PlayerControl : MonoBehaviour
         //TODO
         //Gerer la mort
 
+    }
+
+    public void Act()
+    {
+       if (leverInRange != null)
+        {
+            leverInRange.Activate();
+        }
     }
 }

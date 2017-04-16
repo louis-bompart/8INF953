@@ -12,16 +12,16 @@ public class Lever : Actionner
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-
+        //base.Update();
     }
 
     // Active / Desactive le levier selon si il est Desactive/Active
     public void Activate()
     {
         isActive = !isActive;
-        anim.SetBool("Activated", isActive);
+        //anim.SetBool("Activated", isActive);
     }
 
 
@@ -29,20 +29,20 @@ public class Lever : Actionner
     void OnTriggerEnter(Collider collider)
     {
         if (collider.CompareTag("Player"))
-            collider.GetComponent<PlayerControl>().actionnerInRange = this;
+            collider.GetComponent<PlayerControl>().leverInRange = this;
     }
 
     // On regarde les collisions entre plaque et joueur/cadavre
     void OnTriggerStay(Collider collider)
     {
         if (collider.CompareTag("Player")) 
-            collider.GetComponent<PlayerControl>().actionnerInRange = this;
+            collider.GetComponent<PlayerControl>().leverInRange = this;
     }
 
     // On regarde si le joueur sort de la plaque
     void OnTriggerExit(Collider collider)
     {
         if (collider.CompareTag("Player"))
-            collider.GetComponent<PlayerControl>().actionnerInRange = null;
+            collider.GetComponent<PlayerControl>().leverInRange = null;
     }
 }

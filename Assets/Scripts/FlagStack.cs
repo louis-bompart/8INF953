@@ -34,6 +34,31 @@ public class FlagStack
         AddFlagAt(flag, flags.Count);
     }
 
+    public void SwapFlag(int position1, int position2)
+    {
+        if (position2 == flags.Count && position1 < flags.Count)
+        {
+            AddFlagBack(flags[position1]);
+            RemoveFlagAt(position1);
+            return;
+        }
+        if (position1 == flags.Count && position2 < flags.Count)
+        {
+            AddFlagBack(flags[position2]);
+            RemoveFlagAt(position2);
+            return;
+        }
+
+        Flag flag1 = flags[position1];
+        flags[position1] = flags[position2];
+        flags[position2] = flag1;
+        //TODO Maybe handle the swap between an empty case and a full one.
+    }
+
+    public void RemoveFlagAt(int position)
+    {
+        flags.RemoveAt(position);
+    }
     public override bool Equals(object obj)
     {
         return (obj as FlagStack).id == this.id;

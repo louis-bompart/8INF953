@@ -14,14 +14,12 @@ public class ActFlag : Flag {
 		
 	}
 
-	void Act(){
-		//TODO
-	}
 
 	public override void OnTriggerEnter (Collider other)
 	{
-		base.OnTriggerEnter (other);
-		Act ();
-	}
+        if (!isUsed)
+            other.GetComponent<PlayerControl>().Act();
+        base.OnTriggerEnter(other);
+    }
 
 }

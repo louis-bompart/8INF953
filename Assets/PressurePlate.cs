@@ -12,9 +12,9 @@ public class PressurePlate : Actionner
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        anim.SetBool("Activated", isActive);
+        base.Update();
     }
 
     // On regarde les collisions entre plaque et joueur/cadavre
