@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Tile
+public class TileSerializable
 {
     string tileName;
     string description;
     bool isWalkable;
     bool isDeadly;
     private FlagStack flagStack;
-    private IDManager idManager;
-    public IDManager idManagerPrefab;
 
     public FlagStack FlagStack
     {
@@ -22,10 +20,14 @@ public class Tile
         }
     }
 
-    private Tile()
+    private TileSerializable()
     {
-        if (idManager == null)
-            idManager = new IDManager();
         flagStack = new FlagStack();
     }
 }
+
+public class Tile : MonoBehaviour
+{
+
+}
+

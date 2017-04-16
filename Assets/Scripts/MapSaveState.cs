@@ -8,7 +8,7 @@ public class MapSaveState : MonoBehaviour
     public static GameObject original;
     public int xSize;
     public int ySize;
-    public Tile[,] tiles;
+    public TileSerializable[,] tiles;
 
     // Use this for initialization
     public static MapSaveState CreateFromSerialized(MapSaveStateSerializable serialized)
@@ -27,7 +27,7 @@ public class MapSaveState : MonoBehaviour
     void Start()
     {
         if (tiles == null)
-            tiles = new Tile[xSize, ySize];
+            tiles = new TileSerializable[xSize, ySize];
     }
 }
 
@@ -36,7 +36,7 @@ public class MapSaveStateSerializable
 {
     public int xSize;
     public int ySize;
-    public Tile[] tiles;
+    public TileSerializable[] tiles;
 
     [NonSerialized]
     public MapSaveState mapSaveState;
@@ -51,7 +51,7 @@ public class MapSaveStateSerializable
         ySize = saveState.ySize;
 
         int size = saveState.xSize * saveState.ySize;
-        tiles = new Tile[size];
+        tiles = new TileSerializable[size];
         for (int i = 0; i < saveState.xSize; i++)
         {
             for (int j = 0; j < saveState.ySize; j++)
