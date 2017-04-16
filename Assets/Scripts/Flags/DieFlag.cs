@@ -20,7 +20,7 @@ public class DieFlag : Flag {
     public override void OnTriggerEnter(Collider other)
     {
         if (!isUsed)
-            other.GetComponent<PlayerControl>().Die();
+            other.GetComponent<PlayerControl>().Die(transform);
         base.OnTriggerEnter(other);
     }
 

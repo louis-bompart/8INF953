@@ -19,6 +19,7 @@ public class PlayerControl : MonoBehaviour
     public float accelerationMagnitude;
 
     public float jumpAcceleration;
+    public Actionner actionnerInRange;
 
 
     // Use this for initialization
@@ -27,7 +28,7 @@ public class PlayerControl : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         accelerationDirection = Vector3.forward;
     }
-    
+
     private void Update()
     {
         speed = rb.velocity.magnitude;
@@ -58,7 +59,7 @@ public class PlayerControl : MonoBehaviour
     {
         isStopped = true;
         float velocityY = rb.velocity.y;
-        rb.velocity = Vector3.zero + Vector3.up*velocityY;
+        rb.velocity = Vector3.zero + Vector3.up * velocityY;
     }
 
     public void Reverse()
@@ -66,9 +67,11 @@ public class PlayerControl : MonoBehaviour
         accelerationDirection *= -1;
     }
 
-    public void Die()
+    public void Die(Transform transform = null)
     {
-        Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
+        if (transform == null)
+            transform = gameObject.transform;
+            Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
         //TODO
         //Gerer la mort
 
