@@ -8,15 +8,12 @@ public class MapSaveState : MonoBehaviour
     public static GameObject original;
     public int xSize;
     public int ySize;
-    public TileSerializable[,] tiles;
+    public TileData[,] tiles;
 
     // Use this for initialization
     public static MapSaveState CreateFromSerialized(MapSaveStateSerializable serialized)
     {
-        MapSaveState toReturn;
-        toReturn = Instantiate(original).GetComponent<MapSaveState>();
-        toReturn.xSize = serialized.xSize;
-        toReturn.ySize = serialized.ySize;
+        MapSaveState toReturn = Create(serialized.xSize, serialized.ySize);
         for (int i = 0; i < serialized.tiles.Length; i++)
         {
             toReturn.tiles[i % toReturn.xSize, i / toReturn.xSize] = serialized.tiles[i];
@@ -24,10 +21,19 @@ public class MapSaveState : MonoBehaviour
         return toReturn;
     }
 
+    public static MapSaveState Create(int xSize, int ySize)
+    {
+        MapSaveState toReturn = Instantiate(original).GetComponent<MapSaveState>();
+        toReturn.xSize = xSize;
+        toReturn.ySize = ySize;
+        toReturn.tiles = new TileData[toReturn.xSize, toReturn.ySize];
+        return toReturn;
+    }
+
     void Start()
     {
         if (tiles == null)
-            tiles = new TileSerializable[xSize, ySize];
+            tiles = new TileData[xSize, ySize];
     }
 }
 
@@ -36,7 +42,7 @@ public class MapSaveStateSerializable
 {
     public int xSize;
     public int ySize;
-    public TileSerializable[] tiles;
+    public TileData[] tiles;
 
     [NonSerialized]
     public MapSaveState mapSaveState;
@@ -51,7 +57,7 @@ public class MapSaveStateSerializable
         ySize = saveState.ySize;
 
         int size = saveState.xSize * saveState.ySize;
-        tiles = new TileSerializable[size];
+        tiles = new TileData[size];
         for (int i = 0; i < saveState.xSize; i++)
         {
             for (int j = 0; j < saveState.ySize; j++)
