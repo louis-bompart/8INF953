@@ -5,6 +5,7 @@ using UnityEngine;
 public class Initializer : MonoBehaviour
 {
     public GameObject mapSaveStatePrefab;
+    public GameObject tilePrefab;
 
     private void Awake()
     {
@@ -13,6 +14,7 @@ public class Initializer : MonoBehaviour
         else
         {
             MapSaveState.original = mapSaveStatePrefab;
+            Tile.original = tilePrefab;
             //Add other init needed here
         }
     }

@@ -8,6 +8,7 @@ public class MapSaveState : MonoBehaviour
     public static GameObject original;
     public int xSize;
     public int ySize;
+    public int cellSize;
     public TileData[,] tiles;
 
     // Use this for initialization
@@ -30,10 +31,43 @@ public class MapSaveState : MonoBehaviour
         return toReturn;
     }
 
+    public void CreateTiles()
+    {
+        for (int i = 0; i < xSize; i++)
+        {
+            for (int j = 0; j < ySize; j++)
+            {
+                Tile tile = Tile.CreateTile();
+                tile.transform.position = i * Vector3.forward * cellSize + j * Vector3.up * cellSize;
+                tile.transform.rotation = transform.rotation;                
+                tiles[i, j] = tile.data;
+            }
+        }
+    }
+
+    public void LinkTilesWithData()
+    {
+        List<Tile> tilesGO = new List<Tile>(FindObjectsOfType<Tile>());
+        Dictionary<int, Tile> refTilesGO = new Dictionary<int, Tile>();
+        foreach (Tile tile in tilesGO)
+        {
+            refTilesGO.Add(tile.id, tile);
+        }
+        foreach (TileData data in tiles)
+        {
+            Tile tmp = null;
+            if (refTilesGO.TryGetValue(data.id, out tmp))
+                tmp.data = data;
+            else
+                Debug.Log("TileData without Tile, id:" + data.id);
+        }
+    }
+
     void Start()
     {
         if (tiles == null)
             tiles = new TileData[xSize, ySize];
+        CreateTiles();
     }
 }
 
