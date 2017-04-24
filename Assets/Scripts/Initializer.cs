@@ -6,7 +6,8 @@ public class Initializer : MonoBehaviour
 {
     public GameObject mapSaveStatePrefab;
     public GameObject tilePrefab;
-
+    public GameObject slotPrefab;
+    public List<GameObject> itemPrefabs;
     private void Awake()
     {
         if (FindObjectsOfType<Initializer>().Length > 1)
@@ -15,6 +16,8 @@ public class Initializer : MonoBehaviour
         {
             MapSaveState.original = mapSaveStatePrefab;
             Tile.original = tilePrefab;
+            Item.itemsPrefab = itemPrefabs;
+            Slot.original = slotPrefab;
             //Add other init needed here
         }
     }

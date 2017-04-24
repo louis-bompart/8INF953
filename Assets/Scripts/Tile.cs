@@ -66,5 +66,9 @@ public class Tile : MonoBehaviour
         cursor.transform.localPosition = Vector3.zero;
         cursor.SetActive(true);
     }
+    private void OnMouseUpAsButton()
+    {
+        SlotManager.instance.LoadFlagStack(this);
+    }
 }
 

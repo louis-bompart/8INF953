@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class FlagStack
 {
+    public static Dictionary<int, FlagStack> mapFlagStack;
     public List<Flag> flags;
     private static IDManager idManager;
     public IDManager idManagerPrefab;
@@ -13,10 +14,13 @@ public class FlagStack
 
     public FlagStack()
     {
+        if (mapFlagStack == null)
+            mapFlagStack = new Dictionary<int, FlagStack>();
         if (idManager == null)
             idManager = new IDManager();
         flags = new List<Flag>();
         this.id = idManager.GetNewID();
+        mapFlagStack.Add(this.id, this);
     }
 
     public void AddFlagAt(Flag flag, int position)
@@ -53,6 +57,11 @@ public class FlagStack
         flags[position1] = flags[position2];
         flags[position2] = flag1;
         //TODO Maybe handle the swap between an empty case and a full one.
+    }
+
+    internal static FlagStack GetFS(FlagStack flagStack)
+    {
+        return mapFlagStack[flagStack.id];
     }
 
     public void RemoveFlagAt(int position)
