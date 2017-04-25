@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Plateform : MonoBehaviour
+public class Plateform : Actionnable
 {
-
-    // Actionneur de la plateforme pour la faire bouger ou non
-    public Actionner actionneur;
 
     // Pointeur vers la case du tableau contenant la position suivante vers laquelle se diriger
     public int pointeurDest;
@@ -17,8 +14,6 @@ public class Plateform : MonoBehaviour
     // Si la plateforme est mobile
     public bool isMobile;
 
-    // Si la plateforme bouge alors que l'activateur est desactive
-    public bool isMovingAlone;
 
     // Animator
     public Animator anim;
@@ -26,10 +21,6 @@ public class Plateform : MonoBehaviour
     // Tableau contenant les positions des differentes destination de la plateforme
     public Vector3[] tabDestination;
     // Si la plateforme bouge
-    public bool isMoving;
-    // Si la plateforme est activable
-    public bool isActivable;
-    // Position de la destination de la plateforme
     public Vector3 nextDestination;
 
     // RigidBody
@@ -44,40 +35,13 @@ public class Plateform : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        // Si la plateforme est activable :
-        // Elle bouge ou non selon la position de l'activateur
-        if (isActivable)
-        {
-            if (!isMovingAlone)
-            {
-                if (actionneur.isActive && !isMoving)
-                {
-                    isMoving = true;
-                }
-                if (!actionneur.isActive && isMoving)
-                {
-                    isMoving = false;
-                }
-            }
-            else
-            {
-                if (actionneur.isActive && isMoving)
-                {
-                    isMoving = false;
-                }
-                if (!actionneur.isActive && !isMoving)
-                {
-                    isMoving = true;
-                }
-            }
-        }
-
-        if (isMoving)
-        {
-            Move();
-        }
+	public override void Update()
+	{
+		base.Update ();
+		if (isActive)
+		{
+			Move();
+		}
 
     }
 
