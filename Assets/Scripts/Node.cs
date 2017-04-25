@@ -66,12 +66,14 @@ public class Node : MonoBehaviour
     public bool isRoot;
     public bool isAMerge;
     public Node mergeOrigin;
+    private List<Connection> connections;
 
     internal static Node CreateFromData(NodeData nodeData)
     {
         GameObject toReturnGO = Instantiate(original);
         Node toReturn = toReturnGO.GetComponent<Node>();
 
+        toReturn.connections = new List<Connection>();
         toReturn.isRoot = nodeData.isRoot;
         toReturn.parent = nodeData.parent.GetNode();
         toReturn.data = nodeData;
@@ -81,13 +83,23 @@ public class Node : MonoBehaviour
             toReturn.isAMerge = nodeData.mergeOrigin.GetNode();
             Connection connectionMerged = Instantiate<Connection>(connectionPrefab);
             connectionMerged.SetTargets(toReturnGO.GetComponent<RectTransform>(), toReturn.mergeOrigin.GetComponent<RectTransform>());
+            toReturn.connections.Add(connectionMerged);
             ConnectionManager.AddConnection(connectionMerged);
         }
         Connection connection = Instantiate<Connection>(connectionPrefab);
         connection.SetTargets(toReturnGO.GetComponent<RectTransform>(), toReturn.parent.GetComponent<RectTransform>());
+        toReturn.connections.Add(connection);
         ConnectionManager.AddConnection(connection);
 
         return toReturn;
+    }
+
+    private void OnDestroy()
+    {
+        foreach (Connection connection in connections)
+        {
+            ConnectionManager.RemoveConnection(connection);
+        }
     }
 
     private void Awake()

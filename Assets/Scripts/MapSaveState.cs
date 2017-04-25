@@ -23,6 +23,15 @@ public class MapSaveState : MonoBehaviour
         return toReturn;
     }
 
+    internal static MapSaveState GetCopy(MapSaveState original)
+    {
+        MapSaveState toReturn = Instantiate(original).GetComponent<MapSaveState>();
+        toReturn.xSize = original.xSize;
+        toReturn.ySize = original.ySize;
+        toReturn.tiles = original.tiles;
+        return toReturn;
+    }
+
     public static MapSaveState Create(int xSize, int ySize)
     {
         MapSaveState toReturn = Instantiate(original).GetComponent<MapSaveState>();
