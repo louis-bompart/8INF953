@@ -73,7 +73,7 @@ public class MapSaveState : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
         if (tiles == null)
             tiles = new TileData[xSize, ySize];

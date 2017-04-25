@@ -26,7 +26,8 @@ public class NodeData
     {
         this.parent = parent;
         this.saveState = saveState;
-        this.depth = parent.depth + 1;
+        if (parent != null)
+            this.depth = parent.depth + 1;
         this.saveStateSerializable = new MapSaveStateSerializable(saveState);
         this.isRoot = false;
         this.isAMerge = false;
@@ -66,40 +67,56 @@ public class Node : MonoBehaviour
     public bool isRoot;
     public bool isAMerge;
     public Node mergeOrigin;
-    private List<Connection> connections;
 
     internal static Node CreateFromData(NodeData nodeData)
     {
         GameObject toReturnGO = Instantiate(original);
         Node toReturn = toReturnGO.GetComponent<Node>();
 
-        toReturn.connections = new List<Connection>();
         toReturn.isRoot = nodeData.isRoot;
-        toReturn.parent = nodeData.parent.GetNode();
+        if (!toReturn.isRoot)
+            toReturn.parent = nodeData.parent.GetNode();
         toReturn.data = nodeData;
         toReturn.isAMerge = nodeData.isAMerge;
         if (nodeData.isAMerge)
         {
             toReturn.isAMerge = nodeData.mergeOrigin.GetNode();
-            Connection connectionMerged = Instantiate<Connection>(connectionPrefab);
-            connectionMerged.SetTargets(toReturnGO.GetComponent<RectTransform>(), toReturn.mergeOrigin.GetComponent<RectTransform>());
-            toReturn.connections.Add(connectionMerged);
-            ConnectionManager.AddConnection(connectionMerged);
+            ConnectionManager.CreateConnection(toReturnGO.GetComponent<RectTransform>(), toReturn.mergeOrigin.GetComponent<RectTransform>());
+            Connection conn = ConnectionManager.FindConnection(toReturn.GetComponent<RectTransform>(), toReturn.mergeOrigin.GetComponent<RectTransform>());
+            ConnectionPoint[] points = conn.points;
+            conn.line.startWidth = 2;
+            conn.line.endWidth = 2;
+            points[conn.GetIndex(toReturnGO.GetComponent<RectTransform>())].direction = ConnectionPoint.ConnectionDirection.West;
+            points[conn.GetIndex(toReturn.mergeOrigin.GetComponent<RectTransform>())].direction = ConnectionPoint.ConnectionDirection.East;
+            for (int i = 0; i < points.Length; i++)
+            {
+                points[i].color = Color.grey;
+                Connection connection = new Connection();
+            }
         }
-        Connection connection = Instantiate<Connection>(connectionPrefab);
-        connection.SetTargets(toReturnGO.GetComponent<RectTransform>(), toReturn.parent.GetComponent<RectTransform>());
-        toReturn.connections.Add(connection);
-        ConnectionManager.AddConnection(connection);
-
+        if (!nodeData.isRoot)
+        {
+            ConnectionManager.CreateConnection(toReturnGO.GetComponent<RectTransform>(), toReturn.parent.GetComponent<RectTransform>());
+            Connection conn = ConnectionManager.FindConnection(toReturn.GetComponent<RectTransform>(), toReturn.parent.GetComponent<RectTransform>());
+            ConnectionPoint[] points = conn.points;
+            conn.line.startWidth = 2;
+            conn.line.endWidth = 2;
+            points[conn.GetIndex(toReturnGO.GetComponent<RectTransform>())].direction = ConnectionPoint.ConnectionDirection.West;
+            points[conn.GetIndex(toReturn.parent.GetComponent<RectTransform>())].direction = ConnectionPoint.ConnectionDirection.East;
+            for (int i = 0; i < points.Length; i++)
+            {
+                points[i].color = Color.grey;
+            }
+        }
         return toReturn;
     }
 
     private void OnDestroy()
     {
-        foreach (Connection connection in connections)
-        {
-            ConnectionManager.RemoveConnection(connection);
-        }
+        if (!isRoot)
+            ConnectionManager.RemoveConnection(ConnectionManager.FindConnection(GetComponent<RectTransform>(), parent.GetComponent<RectTransform>()));
+        if (isAMerge)
+            ConnectionManager.RemoveConnection(ConnectionManager.FindConnection(GetComponent<RectTransform>(), mergeOrigin.GetComponent<RectTransform>()));
     }
 
     private void Awake()
