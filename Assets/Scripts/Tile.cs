@@ -33,6 +33,13 @@ public class TileData
     {
         return Tile.mappedTile[id];
     }
+
+    public TileData(TileData toCopy)
+    {
+        this.id = toCopy.id;
+        this.isLocked = toCopy.isLocked;
+        this.flagStack = new FlagStack(toCopy.flagStack);
+    }
 }
 
 public class Tile : MonoBehaviour

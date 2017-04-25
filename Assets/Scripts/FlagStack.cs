@@ -23,6 +23,17 @@ public class FlagStack
         mapFlagStack.Add(this.id, this);
     }
 
+    public FlagStack(FlagStack flagStack)
+    {
+        if (mapFlagStack == null)
+            mapFlagStack = new Dictionary<int, FlagStack>();
+        if (idManager == null)
+            idManager = new IDManager();
+        this.id = idManager.GetNewID();
+        this.flags = new List<Flag>(flagStack.flags);
+        mapFlagStack.Add(this.id, this);
+    }
+
     public void AddFlagAt(Flag flag, int position)
     {
         flags.Insert(position, flag);

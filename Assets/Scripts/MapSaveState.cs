@@ -49,7 +49,7 @@ public class MapSaveState : MonoBehaviour
             {
                 Tile tile = Tile.CreateTile();
                 tile.transform.position = i * Vector3.forward * cellSize + j * Vector3.up * cellSize;
-                tile.transform.rotation = transform.rotation;                
+                tile.transform.rotation = transform.rotation;
                 tiles[i, j] = tile.data;
             }
         }
@@ -108,6 +108,18 @@ public class MapSaveStateSerializable
             {
                 tiles[i + j * saveState.xSize] = saveState.tiles[i, j];
             }
+        }
+    }
+
+    public MapSaveStateSerializable(MapSaveStateSerializable saveState)
+    {
+        this.xSize = saveState.xSize;
+        this.ySize = saveState.ySize;
+        int size = saveState.xSize * saveState.ySize;
+        tiles = new TileData[saveState.tiles.Length];
+        for (int i = 0; i < saveState.tiles.Length; i++)
+        {
+            tiles[i] = saveState.tiles[i];
         }
     }
 

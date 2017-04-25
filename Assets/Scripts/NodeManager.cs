@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class NodeManager : MonoBehaviour
 {
-
     Node root;
     MapSaveState initalSaveState;
     Node current;
@@ -16,26 +15,28 @@ public class NodeManager : MonoBehaviour
     private void Awake()
     {
         initalSaveState = FindObjectOfType<MapSaveState>();
-        //ToDo set initialSaveState;
+        //ToDo check initialSaveState;
+        //  Certainly need to load it from files, when the initialState'd been designed
         nodes = new List<Node>();
-        root = NodeData.CreateRoot(initalSaveState).GetNode();
-        root.transform.SetParent(transform, true);
+        root = NodeData.CreateRoot(new MapSaveStateSerializable(initalSaveState)).GetNode();
+        root.transform.SetParent(transform, false);
         root.GetComponent<RectTransform>().sizeDelta = nodeSize;
-        root.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(nodeSize.x / 2 + margin, 0, 0);
+        root.GetComponent<RectTransform>().anchoredPosition3D = Vector3.Scale(new Vector3(nodeSize.x / 2 + margin, GetComponent<RectTransform>().rect.height / 2 - nodeSize.y / 2 - margin, 0), root.GetComponent<RectTransform>().localScale);
         current = root;
     }
 
     public void TestCreate()
     {
+        CreateChild(current);
         current = CreateChild(current);
     }
 
     public Node CreateChild(Node parent)
     {
-        Node toReturn = new NodeData(MapSaveState.GetCopy(parent.data.saveState), parent.data).GetNode();
-        toReturn.transform.SetParent(transform, true);
+        Node toReturn = new NodeData(parent.data.saveState, parent.data).GetNode();
+        toReturn.transform.SetParent(transform, false);
         toReturn.GetComponent<RectTransform>().sizeDelta = nodeSize;
-        toReturn.GetComponent<RectTransform>().anchoredPosition3D = parent.GetComponent<RectTransform>().anchoredPosition3D + Vector3.right * (nodeSize.x + margin);
+        toReturn.GetComponent<RectTransform>().anchoredPosition3D = parent.GetComponent<RectTransform>().anchoredPosition3D + Vector3.Scale(Vector3.right * (nodeSize.x + margin) + Vector3.down * (nodeSize.y + margin) * (parent.data.nbChild-1), toReturn.GetComponent<RectTransform>().localScale);
         return toReturn;
     }
 
@@ -52,7 +53,7 @@ public class NodeManager : MonoBehaviour
     public Node Merge(Node from, Node into)
     {
         Node toReturn = NodeData.CreateMergeNode(null, into.data, from.data).GetNode();
-        toReturn.transform.SetParent(transform, true);
+        toReturn.transform.SetParent(transform, false);
         toReturn.GetComponent<RectTransform>().sizeDelta = nodeSize;
         //ToDo put int the avg height of from and into
         //toReturn.GetComponent<RectTransform>().localPosition = from.GetComponent<RectTransform>().localPosition
