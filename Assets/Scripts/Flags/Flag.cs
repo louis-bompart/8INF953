@@ -5,26 +5,44 @@ using UnityEngine;
 public abstract class Flag : MonoBehaviour
 {
 
-    protected bool isUsed;
+    protected bool toUse;
+    protected bool toDestroy;
+    public Tile tile;
+
     // Use this for initialization
     void Start()
     {
-        isUsed = false;
+        toUse = false;
+        toDestroy = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(toDestroy)
+        {
+            DestroyImmediate(gameObject);
+        }
     }
 
-    public virtual void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        isUsed = true;
+        ActivateFlag(other);
     }
+
+    public void OnTriggerStay(Collider other)
+    {
+        ActivateFlag(other);
+    }
+
     private void OnTriggerExit(Collider other)
     {
-        isUsed = false;
+        toUse = false;
+    }
+
+    private void OnDestroy()
+    {
+        toUse = false;
     }
 
     public override bool Equals(object obj)
@@ -32,4 +50,21 @@ public abstract class Flag : MonoBehaviour
         //TODO DUH
         return this.GetType() == obj.GetType();
     }
+
+    public void SetListener(Tile tile)
+    {
+        this.tile = tile;
+    }
+
+    public virtual void ActivateFlag(Collider other)
+    {
+        if (!other.GetComponent<PlayerControl>().isOnCooldown)
+        {
+            other.GetComponent<PlayerControl>().SetCooldown(true);
+            tile.AddNextFlag();
+            toUse = true;
+            toDestroy = true;
+        }
+    }
+
 }

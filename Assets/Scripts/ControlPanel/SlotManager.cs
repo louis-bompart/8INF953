@@ -17,7 +17,6 @@ public class SlotManager : MonoBehaviour
         else
         {
             slots = new List<Slot>();
-            RefreshSlots();
             instance = this;
         }
     }
@@ -43,6 +42,7 @@ public class SlotManager : MonoBehaviour
     {
         flagStack = tile.data.flagStack;
         this.tile = tile;
+        RefreshSlots();
         Debug.Log("FlagStack loaded");
     }
 
@@ -92,5 +92,7 @@ public class SlotManager : MonoBehaviour
         {
             slots.Add(Slot.CreateEmpty(slots.Count, transform));
         }
+        tile.RefreshFlagStack();
+
     }
 }

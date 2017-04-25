@@ -2,30 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DieFlag : Flag {
-    
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-
-
-    public override void OnTriggerEnter(Collider other)
+public class DieFlag : Flag
+{
+    public override void ActivateFlag(Collider other)
     {
-        if (!isUsed)
+        base.ActivateFlag(other);
+        if (toUse)
             other.GetComponent<PlayerControl>().Die(transform);
-        base.OnTriggerEnter(other);
     }
 
 
-	/*private void Suicide()
+    /*private void Suicide()
 	{
 		Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
 		transform.position=lastWP.transform.position;

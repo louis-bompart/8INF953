@@ -20,18 +20,25 @@ public class PlayerControl : MonoBehaviour
 
     public float jumpAcceleration;
     public Lever leverInRange;
-    
+
+    public bool isOnCooldown;
+    private float coolDownEnd;
+    public float cooldownDuration;
+
 
     // Use this for initialization
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
         accelerationDirection = Vector3.forward;
+        isOnCooldown = false;
     }
 
     private void Update()
     {
         speed = rb.velocity.magnitude;
+        if (isOnCooldown && coolDownEnd < Time.time)
+            isOnCooldown = false;
     }
 
     // Update is called once per frame
@@ -42,6 +49,13 @@ public class PlayerControl : MonoBehaviour
             rb.AddForce(accelerationDirection * accelerationMagnitude);
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
         }
+    }
+
+    internal void SetCooldown(bool input)
+    {
+        isOnCooldown = input;
+        if (input)
+            coolDownEnd = Time.time + cooldownDuration;
     }
 
     public bool Jump()
@@ -71,7 +85,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (transform == null)
             transform = gameObject.transform;
-            Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
+        Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
         //TODO
         //Gerer la mort
 
@@ -79,7 +93,7 @@ public class PlayerControl : MonoBehaviour
 
     public void Act()
     {
-       if (leverInRange != null)
+        if (leverInRange != null)
         {
             leverInRange.Activate();
         }

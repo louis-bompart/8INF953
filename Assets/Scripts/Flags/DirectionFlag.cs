@@ -12,21 +12,11 @@ public class DirectionFlag : Flag
     }
 
     public Direction direction;
-    // Use this for initialization
-    void Start()
+    public override void ActivateFlag(Collider other)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public override void OnTriggerEnter(Collider other)
-    {
-        if(!isUsed)
+        base.ActivateFlag(other);
+        if (toUse)
+        {
             switch (direction)
             {
                 case Direction.Left:
@@ -38,5 +28,7 @@ public class DirectionFlag : Flag
                 default:
                     break;
             }
+            other.GetComponent<PlayerControl>().isStopped = false;
+        }
     }
 }

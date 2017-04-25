@@ -2,24 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActFlag : Flag {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-
-	public override void OnTriggerEnter (Collider other)
-	{
-        if (!isUsed)
+public class ActFlag : Flag
+{
+    public override void ActivateFlag(Collider other)
+    {
+        base.ActivateFlag(other);
+        if (toUse)
+        {
             other.GetComponent<PlayerControl>().Act();
-        base.OnTriggerEnter(other);
+        }
     }
-
 }

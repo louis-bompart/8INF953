@@ -4,21 +4,10 @@ using UnityEngine;
 
 public class ReverseFlag : Flag
 {
-    // Use this for initialization
-    void Start()
+    public override void ActivateFlag(Collider other)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    public override void OnTriggerEnter(Collider other)
-    {
-        if (!isUsed)
+        base.ActivateFlag(other);
+        if (toUse)
             other.GetComponent<PlayerControl>().Reverse();
-        base.OnTriggerEnter(other);
     }
 }

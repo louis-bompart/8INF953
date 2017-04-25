@@ -4,23 +4,10 @@ using UnityEngine;
 
 public class StopFlag : Flag
 {
-
-    // Use this for initialization
-    void Start()
+    public override void ActivateFlag(Collider other)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public override void OnTriggerEnter(Collider other)
-    {
-        if (!isUsed)
+        base.ActivateFlag(other);
+        if (toUse)
             other.GetComponent<PlayerControl>().Stop();
-        base.OnTriggerEnter(other);
     }
 }

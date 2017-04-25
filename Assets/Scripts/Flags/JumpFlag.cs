@@ -4,34 +4,19 @@ using UnityEngine;
 
 public class JumpFlag : Flag
 {
-
-
-    // Use this for initialization
-    void Start()
+    public override void ActivateFlag(Collider other)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        base.ActivateFlag(other);
+        if (toUse)
+        {
+            Jump(other);
+        }
     }
 
 
-    public override void OnTriggerEnter(Collider other)
-    {
-        Jump(other);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        Jump(other);
-    }
 
     private void Jump(Collider other)
     {
-        if (!isUsed)
-            isUsed = other.GetComponent<PlayerControl>().Jump();
+        toDestroy = other.GetComponent<PlayerControl>().Jump();
     }
 }

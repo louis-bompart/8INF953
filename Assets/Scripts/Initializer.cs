@@ -8,6 +8,7 @@ public class Initializer : MonoBehaviour
     public GameObject tilePrefab;
     public GameObject slotPrefab;
     public List<GameObject> itemPrefabs;
+    public List<GameObject> flagPrefabs;
     private void Awake()
     {
         if (FindObjectsOfType<Initializer>().Length > 1)

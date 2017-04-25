@@ -10,6 +10,7 @@ public class MapSaveState : MonoBehaviour
     public int ySize;
     public int cellSize;
     public TileData[,] tiles;
+    internal static MapSaveState current;
 
     // Use this for initialization
     public static MapSaveState CreateFromSerialized(MapSaveStateSerializable serialized)
