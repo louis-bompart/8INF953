@@ -18,6 +18,7 @@ public abstract class Actionner : MonoBehaviour
 
     public virtual void Update()
     {
+		Debug.Log (isActive);
         //anim.SetBool("Activated", isActive);
     }
 }
