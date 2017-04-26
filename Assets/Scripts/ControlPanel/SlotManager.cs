@@ -24,6 +24,7 @@ public class SlotManager : MonoBehaviour
     internal void RemoveItem(Item item)
     {
         FlagStack.GetFS(flagStack).RemoveFlagAt(item.currentSlot.GetComponent<Slot>().slotID); // flagStack update   
+		
         RefreshSlots(); 
     }
 
@@ -61,7 +62,7 @@ public class SlotManager : MonoBehaviour
         //item.currentSlot = this.gameObject; // Update Item's slot
         //Update FlagStack
         if (flagStack.flags.Count < 5)
-            FlagStack.GetFS(flagStack).AddFlagAt(item.flagPrefab.GetComponent<Flag>(), slotID); // flagStack update    
+		FlagStack.GetFS(flagStack).AddFlagAt(item.flagPrefab.GetComponent<Flag>(), slotID); // flagStack update
         RefreshSlots();
         //if (slots.Count < 5 && slotID == flagStack.flags.Count - 1)
 

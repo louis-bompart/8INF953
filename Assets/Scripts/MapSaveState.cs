@@ -78,6 +78,7 @@ public class MapSaveState : MonoBehaviour
         if (tiles == null)
             tiles = new TileData[xSize, ySize];
         CreateTiles();
+		current = this;
     }
 }
 

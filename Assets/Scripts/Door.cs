@@ -6,7 +6,6 @@ public class Door : Actionnable {
 
 	public GameObject door;
 
-
 	// Use this for initialization
 	void Start () {
 		

@@ -18,7 +18,7 @@ public class PressurePlate : Actionner
     }
 
     // On regarde les collisions entre plaque et joueur/cadavre
-    void OnTriggerEnter(Collider collider)
+    public void OnTriggerEnter(Collider collider)
     {
         base.isActive = true;
 		Debug.Log (isActive);
@@ -30,8 +30,14 @@ public class PressurePlate : Actionner
         base.isActive = true;
     }
 
+	public override void OnDisable() {
+		base.isActive = false;
+		base.OnDisable ();
+
+	}
+
     // On regarde si le joueur sort de la plaque
-    void OnTriggerExit(Collider collider)
+    public void OnTriggerExit(Collider collider)
     {
         isActive = false;
     }
