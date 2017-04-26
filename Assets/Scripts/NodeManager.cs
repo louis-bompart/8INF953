@@ -124,6 +124,10 @@ public class NodeManager : MonoBehaviour
             current.GetComponent<Image>().color = current.defaultColor;
         current = node;
         current.GetComponent<Image>().color = current.selectedColor;
+        DestroyImmediate(initalSaveState.gameObject);
+        initalSaveState = node.data.saveState.GetMapSaveState();
+        MapSaveState.current = initalSaveState;
+
     }
 
     public void AddChild()

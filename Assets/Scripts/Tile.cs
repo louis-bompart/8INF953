@@ -8,8 +8,9 @@ public class TileData
 {
     internal FlagStack flagStack;
     internal int id;
-	public bool hasActionner;
-	public bool actionnerValue;
+    public bool hasActionner;
+    public bool actionnerValue;
+    public bool hasCorpse;
     internal bool isLocked;
 
     public FlagStack FlagStack
@@ -24,22 +25,26 @@ public class TileData
     {
     }
 
-	public bool ActionnerValue {
-		get{
-			return actionnerValue;
-		}
-		set{
-			actionnerValue = value;
-		}
-	}
+    public bool ActionnerValue
+    {
+        get
+        {
+            return actionnerValue;
+        }
+        set
+        {
+            actionnerValue = value;
+        }
+    }
 
     public TileData(int id)
     {
         this.id = id;
         isLocked = false;
         flagStack = new FlagStack();
-		actionnerValue = false;
-		hasActionner = false;
+        actionnerValue = false;
+        hasActionner = false;
+        hasCorpse = false;
     }
 
     public Tile GetTile()
@@ -47,13 +52,26 @@ public class TileData
         return Tile.mappedTile[id];
     }
 
+    public TileData GetCopy()
+    {
+        TileData copy = new TileData();
+        copy.flagStack = new FlagStack(flagStack);
+        copy.id = id;
+        copy.hasActionner = hasActionner;
+        copy.actionnerValue = actionnerValue;
+        copy.hasCorpse = hasCorpse;
+        copy.isLocked = isLocked;
+        return copy;
+    }
+
     public TileData(TileData toCopy)
     {
         this.id = toCopy.id;
         this.isLocked = toCopy.isLocked;
         this.flagStack = new FlagStack(toCopy.flagStack);
-		this.actionnerValue = toCopy.actionnerValue;
-		this.hasActionner = toCopy.hasActionner;
+        this.actionnerValue = toCopy.actionnerValue;
+        this.hasActionner = toCopy.hasActionner;
+        this.hasCorpse = toCopy.hasCorpse;
     }
 }
 

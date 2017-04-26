@@ -21,7 +21,8 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        transform.SetParent(transform.root, true);
+        transform.SetParent(/*transform.root*/AssBerg.theAss.transform, true);
+        transform.SetAsLastSibling();
         this.transform.position = eventData.position;
         this.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }

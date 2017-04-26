@@ -66,5 +66,4 @@ public abstract class Flag : MonoBehaviour
             toDestroy = true;
         }
     }
-
 }

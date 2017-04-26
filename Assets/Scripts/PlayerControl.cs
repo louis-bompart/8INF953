@@ -39,6 +39,8 @@ public class PlayerControl : MonoBehaviour
         speed = rb.velocity.magnitude;
         if (isOnCooldown && coolDownEnd < Time.time)
             isOnCooldown = false;
+        if (!groundCollider.grounded)
+            hasLiftOff = true;
     }
 
     // Update is called once per frame
@@ -57,12 +59,14 @@ public class PlayerControl : MonoBehaviour
         if (input)
             coolDownEnd = Time.time + cooldownDuration;
     }
-
+    bool hasLiftOff = true;
     public bool Jump()
     {
         //Add an instant force of X
-        if (groundCollider.grounded)
+        if (groundCollider.grounded && hasLiftOff)
         {
+            hasLiftOff = false;
+            Debug.Log("Jumping");
             rb.AddForce(Vector3.up * jumpAcceleration, ForceMode.Impulse);
             return true;
         }

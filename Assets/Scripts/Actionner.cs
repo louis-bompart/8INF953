@@ -19,7 +19,7 @@ public abstract class Actionner : MonoBehaviour
 
 	private void GetTitleAtMyPos() {
 		int x = (int)transform.parent.position.z;
-		int y = (int)transform.parent.position.x;
+		int y = (int)transform.parent.position.y;
 		Debug.Log ("My pos is: " + x + ";" + y);
 		Tile tile = MapSaveState.current.tiles [x, y].GetTile();
 		if (this.tile != null)

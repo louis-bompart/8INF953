@@ -13,15 +13,23 @@ public class MapSaveState : MonoBehaviour
     internal static MapSaveState current;
     public MapSaveStateSerializable serializable;
 
+    public static bool onlyOnce = true;
+
     // Use this for initialization
     public static MapSaveState CreateFromSerialized(MapSaveStateSerializable serialized)
     {
-        MapSaveState toReturn = Create(serialized.xSize, serialized.ySize);
+        //MapSaveState toReturn = Create(serialized.xSize, serialized.ySize);
+        MapSaveState toReturn = Instantiate(original).GetComponent<MapSaveState>();
+        toReturn.xSize = serialized.xSize;
+        toReturn.ySize = serialized.ySize;
+        toReturn.tiles = new TileData[toReturn.xSize, toReturn.ySize];
+
         for (int i = 0; i < serialized.tiles.Length; i++)
         {
-            toReturn.tiles[i % toReturn.xSize, i / toReturn.xSize] = serialized.tiles[i];
+            toReturn.tiles[i % toReturn.xSize, i / toReturn.xSize] = serialized.tiles[i].GetCopy();
         }
         toReturn.serializable = serialized;
+        toReturn.LinkTilesWithData();
         return toReturn;
     }
 
@@ -41,7 +49,7 @@ public class MapSaveState : MonoBehaviour
         toReturn.ySize = ySize;
         toReturn.tiles = new TileData[toReturn.xSize, toReturn.ySize];
         toReturn.serializable = new MapSaveStateSerializable(toReturn);
-
+        //toReturn.CreateTiles();
         return toReturn;
     }
 
@@ -71,7 +79,10 @@ public class MapSaveState : MonoBehaviour
         {
             Tile tmp = null;
             if (refTilesGO.TryGetValue(data.id, out tmp))
+            {
                 tmp.data = data;
+                tmp.RefreshFlagStack();
+            }
             else
                 Debug.Log("TileData without Tile, id:" + data.id);
         }
@@ -79,10 +90,16 @@ public class MapSaveState : MonoBehaviour
 
     void Awake()
     {
+
         if (tiles == null)
             tiles = new TileData[xSize, ySize];
-        CreateTiles();
-		current = this;
+        //CreateTiles();
+        if (onlyOnce)
+        {
+            onlyOnce = false;
+            CreateTiles();
+        }
+        current = this;
     }
 }
 
@@ -101,6 +118,24 @@ public class MapSaveStateSerializable
     }
 
     public MapSaveStateSerializable(MapSaveState saveState)
+    {
+        xSize = saveState.xSize;
+        ySize = saveState.ySize;
+
+        int size = saveState.xSize * saveState.ySize;
+        tiles = new TileData[size];
+        for (int i = 0; i < saveState.xSize; i++)
+        {
+            for (int j = 0; j < saveState.ySize; j++)
+            {
+                tiles[i + j * saveState.xSize] = saveState.tiles[i, j];
+            }
+        }
+        this.mapSaveState = saveState;
+        this.mapSaveState.serializable = this;
+    }
+
+    public void Update(MapSaveState saveState)
     {
         xSize = saveState.xSize;
         ySize = saveState.ySize;
@@ -135,7 +170,7 @@ public class MapSaveStateSerializable
         int size = into.saveState.xSize * into.saveState.ySize;
         tiles = new TileData[size];
         NodeData used = into;
-        if(from.depth>into.depth)
+        if (from.depth > into.depth)
         {
             used = from;
         }
@@ -144,18 +179,19 @@ public class MapSaveStateSerializable
             tiles[i] = used.saveState.tiles[i];
             if (from.saveState.tiles[i].isLocked || into.saveState.tiles[i].isLocked)
                 tiles[i].isLocked = true;
-            if(!from.saveState.tiles[i].Equals(into.saveState.tiles[i]))
+            if (!from.saveState.tiles[i].Equals(into.saveState.tiles[i]))
             {
                 tiles[i].isLocked = true;
             }
         }
     }
 
+
     public MapSaveState GetMapSaveState()
     {
-        if (mapSaveState == null)
-            mapSaveState = MapSaveState.CreateFromSerialized(this);
-        return mapSaveState;
+        if (this.mapSaveState == null)
+            this.mapSaveState = MapSaveState.CreateFromSerialized(this);
+        return this.mapSaveState;
     }
 
 }
