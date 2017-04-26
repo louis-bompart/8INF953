@@ -93,6 +93,9 @@ public class MapSaveStateSerializable
     public int ySize;
     public TileData[] tiles;
 
+	public CheckPointData initCheck;
+	public CheckPointData finalCheck;
+
     [NonSerialized]
     public MapSaveState mapSaveState;
 
