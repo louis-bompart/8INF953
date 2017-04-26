@@ -25,6 +25,12 @@ public class PlayerControl : MonoBehaviour
     private float coolDownEnd;
     public float cooldownDuration;
 
+	public GameObject gameState;
+
+	public void Awake(){
+		gameState = GameObject.Find("GameState");
+	}
+
 
     // Use this for initialization
     void Start()
@@ -87,6 +93,8 @@ public class PlayerControl : MonoBehaviour
 
     public void Die(Transform transform = null)
     {
+		GameState gs = gameState.GetComponent<GameState>();
+		gs.nbDeath++;
         if (transform == null)
             transform = gameObject.transform;
         Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
@@ -100,6 +108,7 @@ public class PlayerControl : MonoBehaviour
         if (leverInRange != null)
         {
             leverInRange.Activate();
+
         }
     }
 }

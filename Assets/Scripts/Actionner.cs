@@ -41,6 +41,7 @@ public abstract class Actionner : MonoBehaviour
 		if (tile != null) {
 			tile.data.ActionnerValue = isActive;
 		}
+
         //anim.SetBool("Activated", isActive);
     }
 
