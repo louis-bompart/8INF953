@@ -11,6 +11,7 @@ public class MapSaveState : MonoBehaviour
     public int cellSize;
     public TileData[,] tiles;
     internal static MapSaveState current;
+    public MapSaveStateSerializable serializable;
 
     // Use this for initialization
     public static MapSaveState CreateFromSerialized(MapSaveStateSerializable serialized)
@@ -20,17 +21,18 @@ public class MapSaveState : MonoBehaviour
         {
             toReturn.tiles[i % toReturn.xSize, i / toReturn.xSize] = serialized.tiles[i];
         }
+        toReturn.serializable = serialized;
         return toReturn;
     }
 
-    internal static MapSaveState GetCopy(MapSaveState original)
-    {
-        MapSaveState toReturn = Instantiate(original).GetComponent<MapSaveState>();
-        toReturn.xSize = original.xSize;
-        toReturn.ySize = original.ySize;
-        toReturn.tiles = original.tiles;
-        return toReturn;
-    }
+    //internal static MapSaveState GetCopy(MapSaveState original)
+    //{
+    //    MapSaveState toReturn = Instantiate(original).GetComponent<MapSaveState>();
+    //    toReturn.xSize = original.xSize;
+    //    toReturn.ySize = original.ySize;
+    //    toReturn.tiles = original.tiles;
+    //    return toReturn;
+    //}
 
     public static MapSaveState Create(int xSize, int ySize)
     {
@@ -38,6 +40,8 @@ public class MapSaveState : MonoBehaviour
         toReturn.xSize = xSize;
         toReturn.ySize = ySize;
         toReturn.tiles = new TileData[toReturn.xSize, toReturn.ySize];
+        toReturn.serializable = new MapSaveStateSerializable(toReturn);
+
         return toReturn;
     }
 
