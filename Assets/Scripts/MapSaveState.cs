@@ -123,6 +123,29 @@ public class MapSaveStateSerializable
         }
     }
 
+    public MapSaveStateSerializable(NodeData into, NodeData from)
+    {
+        this.xSize = into.saveState.xSize;
+        this.ySize = into.saveState.ySize;
+        int size = into.saveState.xSize * into.saveState.ySize;
+        tiles = new TileData[size];
+        NodeData used = into;
+        if(from.depth>into.depth)
+        {
+            used = from;
+        }
+        for (int i = 0; i < size; i++)
+        {
+            tiles[i] = used.saveState.tiles[i];
+            if (from.saveState.tiles[i].isLocked || into.saveState.tiles[i].isLocked)
+                tiles[i].isLocked = true;
+            if(!from.saveState.tiles[i].Equals(into.saveState.tiles[i]))
+            {
+                tiles[i].isLocked = true;
+            }
+        }
+    }
+
     public MapSaveState GetMapSaveState()
     {
         if (mapSaveState == null)

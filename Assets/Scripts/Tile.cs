@@ -8,7 +8,7 @@ public class TileData
 {
     internal FlagStack flagStack;
     internal int id;
-    bool isLocked;
+    internal bool isLocked;
 
     public FlagStack FlagStack
     {
