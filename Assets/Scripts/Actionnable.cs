@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Actionnable : MonoBehaviour {
 
-	public Actionner actionneur;
+	public List<Actionner> actionneur;
 
 	// Si la plateforme bouge alors que l'activateur est desactive
 	public bool isActiveByDefault;
@@ -19,7 +19,20 @@ public class Actionnable : MonoBehaviour {
 	void Start () {
 		
 	}
-	
+
+	public bool GlobalActive(){
+		int nbActiveActionner = 0;
+		for (int i = 0; i < actionneur.Count-1; i++) {
+			if (actionneur [i].isActive) {
+				nbActiveActionner++;
+			}
+		}
+		if (nbActiveActionner % 2 == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	// Update is called once per frame
 	public virtual void Update()
 	{
@@ -27,7 +40,7 @@ public class Actionnable : MonoBehaviour {
 		// Elle bouge ou non selon la position de l'activateur
 		if (isActivable)
 		{
-			if (actionneur.isActive)
+			if (GlobalActive())
 				isActive = !isActiveByDefault;
 			else
 				isActive = isActiveByDefault;

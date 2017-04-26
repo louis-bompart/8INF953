@@ -21,6 +21,7 @@ public class Lever : Actionner
     public void Activate()
     {
         isActive = !isActive;
+		Debug.Log ("I ACTIVATE MYSELF !!!!");
         //anim.SetBool("Activated", isActive);
     }
 
@@ -30,6 +31,7 @@ public class Lever : Actionner
     {
         if (collider.CompareTag("Player"))
             collider.GetComponent<PlayerControl>().leverInRange = this;
+		Debug.Log ("Lever In Range");
     }
 
     // On regarde les collisions entre plaque et joueur/cadavre
