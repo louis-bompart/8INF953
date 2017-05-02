@@ -13,7 +13,6 @@ public class NodeManager : MonoBehaviour
     //List<Node> nodes;
     public Vector2 nodeSize;
     public float margin;
-
     private void Awake()
     {
         initalSaveState = FindObjectOfType<MapSaveState>();
@@ -124,7 +123,7 @@ public class NodeManager : MonoBehaviour
             current.GetComponent<Image>().color = current.defaultColor;
         current = node;
         current.GetComponent<Image>().color = current.selectedColor;
-        DestroyImmediate(initalSaveState.gameObject);
+        Destroy(initalSaveState.gameObject);
         initalSaveState = node.data.saveState.GetMapSaveState();
         MapSaveState.current = initalSaveState;
 

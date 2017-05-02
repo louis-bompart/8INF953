@@ -16,7 +16,7 @@ public class GameModeSwitcher : MonoBehaviour
     // Use this for initialization
     private void Awake()
     {
-        current = GameMode.Simulation;
+        current = GameMode.Edition;
     }
 
     public void SwitchToSimulation()
@@ -36,13 +36,18 @@ public class GameModeSwitcher : MonoBehaviour
     {
         if (input != current)
         {
+            GameObject tmp = GameObject.FindGameObjectWithTag("Player");
+            cameras[0] = tmp.GetComponentInChildren<Camera>(true);
+            tmp.GetComponent<PlayerControl>().transform.position = tmp.GetComponent<PlayerControl>().pos;
+            tmp.GetComponent<PlayerControl>().GetComponent<Rigidbody>().velocity = Vector3.zero;
+            tmp.GetComponent<PlayerControl>().enabled = false;
             current = input;
             int cam = -1;
             switch (input)
             {
                 case GameMode.Simulation:
                     cam = 0;
-                    cameras[cam] = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Camera>(true);
+                    tmp.GetComponent<PlayerControl>().enabled = true;
                     break;
                 case GameMode.Edition:
                     cam = 1;

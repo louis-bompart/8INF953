@@ -24,11 +24,12 @@ public class PlayerControl : MonoBehaviour
     public bool isOnCooldown;
     private float coolDownEnd;
     public float cooldownDuration;
-
+    public Vector3 pos;
 	public GameObject gameState;
 
 	public void Awake(){
 		gameState = GameObject.Find("GameState");
+        pos = transform.position;
 	}
 
 
@@ -37,6 +38,7 @@ public class PlayerControl : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody>();
         accelerationDirection = Vector3.forward;
+        transform.position = pos;
         isOnCooldown = false;
     }
 
@@ -97,10 +99,11 @@ public class PlayerControl : MonoBehaviour
 		gs.nbDeath++;
         if (transform == null)
             transform = gameObject.transform;
+        //NodeManager.instance.AddChild();
+        transform.position = pos;
+        rb.velocity = Vector3.zero;
         Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
-        //TODO
-        //Gerer la mort
-
+        FindObjectOfType<GameModeSwitcher>().SwitchToPlanner();
     }
 
     public void Act()
