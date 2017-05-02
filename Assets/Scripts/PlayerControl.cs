@@ -25,12 +25,13 @@ public class PlayerControl : MonoBehaviour
     private float coolDownEnd;
     public float cooldownDuration;
     public Vector3 pos;
-	public GameObject gameState;
+    public GameObject gameState;
 
-	public void Awake(){
-		gameState = GameObject.Find("GameState");
+    public void Awake()
+    {
+        gameState = GameObject.Find("GameState");
         pos = transform.position;
-	}
+    }
 
 
     // Use this for initialization
@@ -93,17 +94,22 @@ public class PlayerControl : MonoBehaviour
         accelerationDirection *= -1;
     }
 
-    public void Die(Transform transform = null)
+    public void Die(Transform deathPosition = null)
     {
-		GameState gs = gameState.GetComponent<GameState>();
-		gs.nbDeath++;
-        if (transform == null)
-            transform = gameObject.transform;
-        //NodeManager.instance.AddChild();
-        transform.position = pos;
-        rb.velocity = Vector3.zero;
-        Instantiate<GameObject>(corpse, transform.position, transform.rotation, transform.parent);
-        FindObjectOfType<GameModeSwitcher>().SwitchToPlanner();
+        if (!MapSaveState.current.isDead)
+        {
+            MapSaveState.current.isDead = false;
+            GameState gs = gameState.GetComponent<GameState>();
+            gs.nbDeath++;
+            if (deathPosition == null)
+                deathPosition = gameObject.transform;
+            //NodeManager.instance.AddChild();
+            transform.position = pos;
+            rb.velocity = Vector3.zero;
+            Instantiate<GameObject>(corpse, deathPosition.position, deathPosition.rotation, deathPosition.parent);
+            FindObjectOfType<GameModeSwitcher>().SwitchToPlanner();
+            MapSaveState.current.isDead = true;
+        }
     }
 
     public void Act()

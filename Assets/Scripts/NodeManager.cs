@@ -23,7 +23,7 @@ public class NodeManager : MonoBehaviour
         root.transform.SetParent(transform, false);
         root.GetComponent<RectTransform>().sizeDelta = nodeSize;
         root.GetComponent<RectTransform>().anchoredPosition3D = Vector3.Scale(new Vector3(nodeSize.x / 2 + margin, GetComponent<RectTransform>().rect.height / 2 - nodeSize.y / 2 - margin, 0), root.GetComponent<RectTransform>().localScale);
-        SetCurrent(root);
+        SetCurrent(root, true);
         instance = this;
     }
 
@@ -44,21 +44,34 @@ public class NodeManager : MonoBehaviour
     public void DeleteNode(Node toDel)
     {
         if (!toDel.isRoot)
+        {
             toDel.parent.children.Remove(toDel);
-        if (toDel.isAMerge)
-            toDel.mergeOrigin.mergeChildren.Remove(toDel);
-        Queue<Node> children = new Queue<Node>(toDel.children);
-        while (children.Count > 0)
-        {
-            DeleteNode(children.Dequeue());
+            if (toDel.isAMerge)
+                toDel.mergeOrigin.mergeChildren.Remove(toDel);
+            Queue<Node> children = new Queue<Node>(toDel.children);
+            while (children.Count > 0)
+            {
+                DeleteNode(children.Dequeue());
+            }
+            children = new Queue<Node>(toDel.mergeChildren);
+            while (children.Count > 0)
+            {
+                DeleteNode(children.Dequeue());
+            }
+            if (toDel != null)
+                Destroy(toDel.gameObject);
         }
-        children = new Queue<Node>(toDel.mergeChildren);
-        while (children.Count > 0)
+    }
+
+    private void ClearNode(Node clr)
+    {
+        for (int i = 0; i < clr.data.saveState.tiles.Length; i++)
         {
-            DeleteNode(children.Dequeue());
+            clr.data.saveState.tiles[i].flagStack.Clear();
+            clr.data.saveState.tiles[i].GetTile().RefreshFlagStack();
         }
-        if (toDel != null)
-            Destroy(toDel.gameObject);
+        clr.data.saveState.isDead = false;
+        clr.data.saveState.mapSaveState.isDead = false;
     }
 
     public Node Merge(Node from, Node into)
@@ -111,7 +124,7 @@ public class NodeManager : MonoBehaviour
 
     }
 
-    internal void SetCurrent(Node node)
+    internal void SetCurrent(Node node, bool init = false)
     {
         if (mergeOnGoing)
         {
@@ -123,7 +136,8 @@ public class NodeManager : MonoBehaviour
             current.GetComponent<Image>().color = current.defaultColor;
         current = node;
         current.GetComponent<Image>().color = current.selectedColor;
-        Destroy(initalSaveState.gameObject);
+        if (!init)
+            Destroy(initalSaveState.gameObject);
         initalSaveState = node.data.saveState.GetMapSaveState();
         MapSaveState.current = initalSaveState;
 
@@ -138,7 +152,7 @@ public class NodeManager : MonoBehaviour
     {
         if (current.isRoot)
         {
-            //Display a warning to user, and do nothing
+            ClearNode(root);
             return;
         }
         Node selected = current.parent;

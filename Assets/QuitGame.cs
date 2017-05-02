@@ -13,4 +13,9 @@ public class QuitGame : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

@@ -34,7 +34,7 @@ public class GameModeSwitcher : MonoBehaviour
 
     public void SwitchTo(GameMode input)
     {
-        if (input != current)
+        if (input != current && !MapSaveState.current.isDead)
         {
             GameObject tmp = GameObject.FindGameObjectWithTag("Player");
             cameras[0] = tmp.GetComponentInChildren<Camera>(true);

@@ -88,4 +88,9 @@ public class FlagStack
     {
         return id;
     }
+
+    internal void Clear()
+    {
+        flags.Clear();
+    }
 }

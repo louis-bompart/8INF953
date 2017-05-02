@@ -9,6 +9,7 @@ public class MapSaveState : MonoBehaviour
     public int xSize;
     public int ySize;
     public int cellSize;
+    public bool isDead;
     public TileData[,] tiles;
     internal static MapSaveState current;
     public MapSaveStateSerializable serializable;
@@ -22,6 +23,7 @@ public class MapSaveState : MonoBehaviour
         MapSaveState toReturn = Instantiate(original).GetComponent<MapSaveState>();
         toReturn.xSize = serialized.xSize;
         toReturn.ySize = serialized.ySize;
+        toReturn.isDead = false;
         toReturn.tiles = new TileData[toReturn.xSize, toReturn.ySize];
 
         for (int i = 0; i < serialized.tiles.Length; i++)
@@ -47,6 +49,8 @@ public class MapSaveState : MonoBehaviour
         MapSaveState toReturn = Instantiate(original).GetComponent<MapSaveState>();
         toReturn.xSize = xSize;
         toReturn.ySize = ySize;
+        toReturn.isDead = false;
+
         toReturn.tiles = new TileData[toReturn.xSize, toReturn.ySize];
         toReturn.serializable = new MapSaveStateSerializable(toReturn);
         //toReturn.CreateTiles();
@@ -109,9 +113,9 @@ public class MapSaveStateSerializable
     public int xSize;
     public int ySize;
     public TileData[] tiles;
-
-	public CheckPointData initCheck;
-	public CheckPointData finalCheck;
+    public bool isDead;
+    public CheckPointData initCheck;
+    public CheckPointData finalCheck;
 
     [NonSerialized]
     public MapSaveState mapSaveState;
@@ -124,7 +128,7 @@ public class MapSaveStateSerializable
     {
         xSize = saveState.xSize;
         ySize = saveState.ySize;
-
+        isDead = saveState.isDead;
         int size = saveState.xSize * saveState.ySize;
         tiles = new TileData[size];
         for (int i = 0; i < saveState.xSize; i++)
@@ -142,7 +146,7 @@ public class MapSaveStateSerializable
     {
         xSize = saveState.xSize;
         ySize = saveState.ySize;
-
+        isDead = saveState.isDead;
         int size = saveState.xSize * saveState.ySize;
         tiles = new TileData[size];
         for (int i = 0; i < saveState.xSize; i++)
@@ -158,6 +162,7 @@ public class MapSaveStateSerializable
     {
         this.xSize = saveState.xSize;
         this.ySize = saveState.ySize;
+        this.isDead = false;
         int size = saveState.xSize * saveState.ySize;
         tiles = new TileData[saveState.tiles.Length];
         for (int i = 0; i < saveState.tiles.Length; i++)
@@ -170,6 +175,7 @@ public class MapSaveStateSerializable
     {
         this.xSize = into.saveState.xSize;
         this.ySize = into.saveState.ySize;
+        this.isDead = false;
         int size = into.saveState.xSize * into.saveState.ySize;
         tiles = new TileData[size];
         NodeData used = into;
