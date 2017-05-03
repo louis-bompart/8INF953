@@ -5,10 +5,10 @@ using UnityEngine;
 public class GameModeSwitcher : MonoBehaviour
 {
 
-	private AudioSource source;
-	public AudioClip simulationClip;
-	public AudioClip editionClip;
-	public AudioClip plannerClip;
+    private AudioSource source;
+    public AudioClip simulationClip;
+    public AudioClip editionClip;
+    public AudioClip plannerClip;
 
     public enum GameMode
     {
@@ -22,28 +22,28 @@ public class GameModeSwitcher : MonoBehaviour
     // Use this for initialization
     private void Awake()
     {
-		source = GetComponent<AudioSource> ();
+        source = GetComponent<AudioSource>();
         current = GameMode.Edition;
-		source.PlayOneShot (editionClip);
+        source.PlayOneShot(editionClip);
     }
 
     public void SwitchToSimulation()
     {
         SwitchTo(GameMode.Simulation);
-		source.Stop ();
-		source.PlayOneShot (simulationClip);
+        source.Stop();
+        source.PlayOneShot(simulationClip);
     }
     public void SwitchToEdition()
     {
         SwitchTo(GameMode.Edition);
-		source.Stop ();
-		source.PlayOneShot (editionClip);
+        source.Stop();
+        source.PlayOneShot(editionClip);
     }
     public void SwitchToPlanner()
     {
         SwitchTo(GameMode.Planner);
-		source.Stop ();
-		source.PlayOneShot (plannerClip);
+        source.Stop();
+        source.PlayOneShot(plannerClip);
     }
 
     public void SwitchTo(GameMode input)
@@ -55,6 +55,8 @@ public class GameModeSwitcher : MonoBehaviour
             tmp.GetComponent<PlayerControl>().transform.position = tmp.GetComponent<PlayerControl>().pos;
             tmp.GetComponent<PlayerControl>().GetComponent<Rigidbody>().velocity = Vector3.zero;
             tmp.GetComponent<PlayerControl>().enabled = false;
+            tmp.GetComponent<PlayerControl>().isOnCooldown = false;
+            tmp.GetComponent<PlayerControl>().isStopped = false;
             current = input;
             int cam = -1;
             switch (input)
