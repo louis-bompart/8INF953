@@ -7,10 +7,13 @@ public class JumpFlag : Flag
     public override void ActivateFlag(Collider other)
     {
         base.ActivateFlag(other);
-        if (toUse)
+		if (toUse && !isOnCooldown)
         {
             Jump(other);
         }
+
+
+		isOnCooldown = true;
     }
 
 

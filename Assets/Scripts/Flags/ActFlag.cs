@@ -7,9 +7,13 @@ public class ActFlag : Flag
     public override void ActivateFlag(Collider other)
     {
         base.ActivateFlag(other);
-        if (toUse)
+		if (toUse && !isOnCooldown)
         {
+
             other.GetComponent<PlayerControl>().Act();
         }
+
+
+		isOnCooldown = true;
     }
 }

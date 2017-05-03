@@ -20,8 +20,9 @@ public class Lever : Actionner
     // Active / Desactive le levier selon si il est Desactive/Active
     public void Activate()
     {
-        isActive = !isActive;
+
 		Debug.Log ("I ACTIVATE MYSELF !!!!");
+        isActive = !isActive;
         //anim.SetBool("Activated", isActive);
     }
 

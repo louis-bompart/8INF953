@@ -7,6 +7,12 @@ public abstract class Flag : MonoBehaviour
 
     protected bool toUse;
     protected bool toDestroy;
+	public bool isOnCooldown;
+	public bool isEntered = false;
+	public float triggeredTime;
+	public float coolDownBegin;
+	public float coolDownTime = 0.8f;
+	public float nextTime = 0.1f;
     public Tile tile;
 
 	private AudioSource source;
@@ -25,6 +31,12 @@ public abstract class Flag : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (isOnCooldown && coolDownBegin + coolDownTime < Time.time) {
+			isOnCooldown = false;
+		}
+		if (isEntered && triggeredTime + nextTime < Time.time) {
+			isEntered = false;
+		}
         if(toDestroy)
         {
             DestroyImmediate(gameObject);
@@ -33,13 +45,17 @@ public abstract class Flag : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-		source.Play ();
-        ActivateFlag(other);
+		if (!isEntered) {
+			source.Play ();
+			ActivateFlag (other);
+			isEntered = true;
+			triggeredTime = Time.time;
+		}
     }
 
     public void OnTriggerStay(Collider other)
     {
-        ActivateFlag(other);
+       // ActivateFlag(other);
     }
 
     private void OnTriggerExit(Collider other)
@@ -65,9 +81,9 @@ public abstract class Flag : MonoBehaviour
 
     public virtual void ActivateFlag(Collider other)
     {
-        if (!other.GetComponent<PlayerControl>().isOnCooldown)
+        if (!isOnCooldown)
         {
-            other.GetComponent<PlayerControl>().SetCooldown(true);
+			coolDownBegin = Time.time;
             tile.AddNextFlag();
             toUse = true;
             toDestroy = true;

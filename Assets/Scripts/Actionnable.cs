@@ -22,7 +22,7 @@ public class Actionnable : MonoBehaviour {
 
 	public bool GlobalActive(){
 		int nbActiveActionner = 0;
-		for (int i = 0; i < actionneur.Count-1; i++) {
+		for (int i = 0; i < actionneur.Count; i++) {
 			if (actionneur [i].isActive) {
 				nbActiveActionner++;
 			}
