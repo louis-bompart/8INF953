@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class GameModeSwitcher : MonoBehaviour
 {
+
+	private AudioSource source;
+	public AudioClip simulationClip;
+	public AudioClip editionClip;
+	public AudioClip plannerClip;
+
     public enum GameMode
     {
         Simulation,
@@ -16,20 +22,28 @@ public class GameModeSwitcher : MonoBehaviour
     // Use this for initialization
     private void Awake()
     {
+		source = GetComponent<AudioSource> ();
         current = GameMode.Edition;
+		source.PlayOneShot (editionClip);
     }
 
     public void SwitchToSimulation()
     {
         SwitchTo(GameMode.Simulation);
+		source.Stop ();
+		source.PlayOneShot (simulationClip);
     }
     public void SwitchToEdition()
     {
         SwitchTo(GameMode.Edition);
+		source.Stop ();
+		source.PlayOneShot (editionClip);
     }
     public void SwitchToPlanner()
     {
         SwitchTo(GameMode.Planner);
+		source.Stop ();
+		source.PlayOneShot (plannerClip);
     }
 
     public void SwitchTo(GameMode input)

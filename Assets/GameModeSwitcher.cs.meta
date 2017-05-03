@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: 07da871a871cc084f88b703ba6ddb54a
-timeCreated: 1493232781
+timeCreated: 1493832111
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - simulationClip: {fileID: 8300000, guid: 081f1ef222d424149a9e831dc972fe56, type: 3}
+  - editionClip: {fileID: 8300000, guid: cc052e0270f324d68beb8bdc28f9fcaa, type: 3}
+  - plannerClip: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
