@@ -9,6 +9,12 @@ public abstract class Flag : MonoBehaviour
     protected bool toDestroy;
     public Tile tile;
 
+	private AudioSource source;
+
+	void Awake(){
+		source = GetComponent<AudioSource> ();
+	}
+
     // Use this for initialization
     void Start()
     {
@@ -27,6 +33,7 @@ public abstract class Flag : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+		source.Play ();
         ActivateFlag(other);
     }
 
