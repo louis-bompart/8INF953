@@ -122,6 +122,8 @@ public class Tile : MonoBehaviour
             newFlag.transform.localPosition = Vector3.zero;
             currentFlagState.RemoveAt(0);
             newFlag.GetComponent<Flag>().SetListener(this);
+			newFlag.GetComponent<Flag> ().isOnCooldown = true;
+			newFlag.GetComponent<Flag> ().coolDownBegin = Time.time;
         }
     }
 

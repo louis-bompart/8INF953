@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -45,6 +46,10 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			SceneManager.LoadScene (0);
+		}
+
         speed = rb.velocity.magnitude;
         if (isOnCooldown && coolDownEnd < Time.time)
             isOnCooldown = false;

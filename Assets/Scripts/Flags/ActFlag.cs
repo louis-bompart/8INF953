@@ -14,6 +14,5 @@ public class ActFlag : Flag
         }
 
 
-		isOnCooldown = true;
     }
 }

@@ -13,7 +13,7 @@ public class JumpFlag : Flag
         }
 
 
-		isOnCooldown = true;
+
     }
 
 

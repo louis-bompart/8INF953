@@ -14,8 +14,11 @@ public class DirectionFlag : Flag
     public Direction direction;
     public override void ActivateFlag(Collider other)
     {
+
+
+
         base.ActivateFlag(other);
-        if (toUse)
+		if (toUse && !isOnCooldown)
         {
             switch (direction)
             {

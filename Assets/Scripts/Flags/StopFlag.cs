@@ -12,6 +12,5 @@ public class StopFlag : Flag
 		}
 
 
-		isOnCooldown = true;
     }
 }

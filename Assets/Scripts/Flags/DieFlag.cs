@@ -7,8 +7,9 @@ public class DieFlag : Flag
     public override void ActivateFlag(Collider other)
     {
         base.ActivateFlag(other);
-        if (toUse)
-            other.GetComponent<PlayerControl>().Die(transform);
+		if (toUse && !isOnCooldown) {
+			other.GetComponent<PlayerControl> ().Die (transform);
+		}
     }
 
 

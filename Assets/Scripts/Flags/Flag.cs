@@ -31,7 +31,9 @@ public abstract class Flag : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		Debug.Log (isOnCooldown);
 		if (isOnCooldown && coolDownBegin + coolDownTime < Time.time) {
+			Debug.Log ("coucou");
 			isOnCooldown = false;
 		}
 		if (isEntered && triggeredTime + nextTime < Time.time) {
@@ -83,8 +85,8 @@ public abstract class Flag : MonoBehaviour
     {
         if (!isOnCooldown)
         {
-			coolDownBegin = Time.time;
-            tile.AddNextFlag();
+
+			tile.AddNextFlag();
             toUse = true;
             toDestroy = true;
         }
